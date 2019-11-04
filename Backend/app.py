@@ -1,15 +1,20 @@
 import tornado.ioloop
 import tornado.web
 
+from Backend.register_github import RegisterGit
+
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write("hello world")
+        self.write("Test server")
+
 
 
 def make_server():
     return tornado.web.Application([
         (r"/", MainHandler),
+        (r"/user/register_github", RegisterGit),
+
     ])
 
 
