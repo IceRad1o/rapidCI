@@ -2,5 +2,15 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo+/repo_name" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo+/repo_obs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo+https:/github.com/ra7more/Interview.git+_obs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo/ra7more_Interview" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo/ra7more_Interview_obs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo/ra7more_Interview_runner" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo/test_repo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo/test_repo_clone_obs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Git_repo/test_repo_clone_runner" vcs="Git" />
   </component>
 </project>

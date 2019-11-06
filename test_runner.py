@@ -42,18 +42,18 @@ class TestHandler(socketserver.BaseRequestHandler):
         command_groups = self.command_re.match(self.data.decode('utf-8'))
         command = command_groups.group(1)
         if not command:
-            self.request.sendall("Invalid command")
+            self.request.sendall(bytes("Invalid command", "utf-8"))
             return
         if command == "ping":
             print("pinged")
             self.server.last_communication = time.time()
-            self.request.sendall(b"pong")
+            self.request.sendall(bytes("pong", "utf-8"))
         elif command == "runtest":
             print("got runtest command: am I busy? %s" % self.server.busy)
             if self.server.busy:
-                self.request.sendall("BUSY")
+                self.request.sendall(bytes("BUSY", "utf-8"))
             else:
-                self.request.sendall("OK")
+                self.request.sendall(bytes("OK", "utf-8"))
                 print("running")
                 commit_id = command_groups.group(2)[1:]
                 self.server.busy = True
@@ -61,7 +61,7 @@ class TestHandler(socketserver.BaseRequestHandler):
                                self.server.repo_folder)
                 self.server.busy = False
         else:
-            self.request.sendall("Invalid command")
+            self.request.sendall(bytes("Invalid command", "utf-8"))
 
     def run_tests(self, commit_id, repo_folder):
         # update repo
@@ -132,10 +132,9 @@ def serve():
     response = helpers.communicate(server.dispatcher_server["host"],
                                    int(server.dispatcher_server["port"]),
                                    "register:%s:%s" %
-                                   (runner_host, runner_port)).decode('utf-8')
+                                   (runner_host, runner_port))
     if response != "OK":
-        print(response)
-        raise Exception("Can't register with dispatcher!")
+        raise Exception("Can't register with dispatcher! %s" % response)
 
     def dispatcher_checker(server):
         # Checks if the dispatcher went down. If it is down, we will shut down
@@ -150,6 +149,7 @@ def serve():
                                        int(server.dispatcher_server["port"]),
                                        "status")
                     if response != "OK":
+                        print(response)
                         print("Dispatcher is no longer functional")
                         server.shutdown()
                         return
@@ -170,5 +170,5 @@ def serve():
         t.join()
 
 
-#if __name__ == "__main__":
- #   serve()
+if __name__ == "__main__":
+    serve()

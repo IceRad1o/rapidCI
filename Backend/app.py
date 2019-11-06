@@ -14,7 +14,7 @@ def make_server():
     return tornado.web.Application([
         (r"/", MainHandler),
         (r"/user/register_github", RegisterGit),
-
+        (r"/user/get_test_result", )
     ])
 
 

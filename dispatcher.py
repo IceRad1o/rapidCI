@@ -60,12 +60,12 @@ class DispatcherHandler(socketserver.BaseRequestHandler):
         self.data = self.request.recv(self.BUF_SIZE).strip()
         command_groups = self.command_re.match(self.data.decode('utf-8'))
         if not command_groups:
-            self.request.sendall(b"Invalid command")
+            self.request.sendall(bytes("Invalid command", "utf-8"))
             return
         command = command_groups.group(1)
         if command == "status":
             print("in status")
-            self.request.sendall(b"OK")
+            self.request.sendall(bytes("OK", "utf-8"))
         elif command == "register":
             # Add this test runner to our pool
             print("register")
@@ -73,15 +73,15 @@ class DispatcherHandler(socketserver.BaseRequestHandler):
             host, port = re.findall(r":(\w*)", address)
             runner = {"host": host, "port":port}
             self.server.runners.append(runner)
-            self.request.sendall(b"OK")
+            self.request.sendall(bytes("OK", "utf-8"))
         elif command == "dispatch":
             print("going to dispatch")
             commit_id = command_groups.group(2)[1:]
             if not self.server.runners:
-                self.request.sendall(b"No runners are registered")
+                self.request.sendall(bytes("No runners are registered", "utf-8"))
             else:
                 # The coordinator can trust us to dispatch the test
-                self.request.sendall(b"OK")
+                self.request.sendall(bytes("OK", "utf-8"))
                 dispatch_tests(self.server, commit_id)
         elif command == "results":
             print("got test results")
@@ -96,13 +96,13 @@ class DispatcherHandler(socketserver.BaseRequestHandler):
             del self.server.dispatched_commits[commit_id]
             if not os.path.exists("test_results"):
                 os.makedirs("test_results")
-            with open("test_results/%s" % commit_id, "w") as f:
-                data = self.data.split(":")[3:]
+            with open("test_results/%s" % commit_id, "wb") as f:
+                data = self.data.decode().split(":")[3:]
                 data = "\n".join(data)
-                f.write(data)
-            self.request.sendall(b"OK")
+                f.write(data.encode("utf-8"))
+            self.request.sendall(bytes("OK", "utf-8"))
         else:
-            self.request.sendall(b"Invalid command")
+            self.request.sendall(bytes("Invalid command", "utf-8"))
 
 
 def serve():
