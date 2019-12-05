@@ -2,7 +2,7 @@ import tornado.ioloop
 import tornado.web
 
 from Backend.register_github import RegisterGit
-
+from Backend.get_testdata import Getdata
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -14,7 +14,7 @@ def make_server():
     return tornado.web.Application([
         (r"/", MainHandler),
         (r"/user/register_github", RegisterGit),
-        (r"/user/get_test_result", )
+        (r"/user/get_test_result", Getdata)
     ])
 
 
